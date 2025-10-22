@@ -1,5 +1,5 @@
 from flask import Flask
-import psycopg2
+import psycopg
 from dotenv import load_dotenv
 import os
 
@@ -28,13 +28,12 @@ def about():
 def sensor():
     # Connect to the database
     try:
-        connection = psycopg2.connect(
+        connection = psycopg.connect(
             user=USER,
             password=PASSWORD,
             host=HOST,
             port=PORT,
-            dbname=DBNAME,
-            sslmode='require'
+            dbname=DBNAME
         )
         print("Connection successful!")
         
