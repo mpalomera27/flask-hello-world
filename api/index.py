@@ -33,7 +33,10 @@ def sensor():
             password=PASSWORD,
             host=HOST,
             port=PORT,
-            dbname=DBNAME
+            dbname=DBNAME,
+            sslmode="require",
+            connect_timeout=10,                  # optional but recommended
+            autocommit=True                      # useful for serverless short-lived connections
         )
         print("Connection successful!")
         
