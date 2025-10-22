@@ -1,5 +1,5 @@
 from flask import Flask
-import psycopg
+import psycopg2
 from dotenv import load_dotenv
 import os
 
@@ -28,15 +28,12 @@ def about():
 def sensor():
     # Connect to the database
     try:
-        connection = psycopg.connect(
+        connection = psycopg2.connect(
             user=USER,
             password=PASSWORD,
             host=HOST,
             port=PORT,
-            dbname=DBNAME,
-            sslmode="require",
-            connect_timeout=10,                  # optional but recommended
-            autocommit=True                      # useful for serverless short-lived connections
+            dbname=DBNAME
         )
         print("Connection successful!")
         
@@ -44,16 +41,18 @@ def sensor():
         cursor = connection.cursor()
         
         # Example query
-        cursor.execute("SELECT NOW();")
+        cursor.execute("select * from sensor_readings;")
         result = cursor.fetchone()
         print("Current Time:", result)
-    
+
         # Close the cursor and connection
         cursor.close()
         connection.close()
         print("Connection closed.")
-        return f"Current Time:{result}"
+        return f"Connection successful! {result}"
+
     except Exception as e:
+        print(f"Failed to connect: {e}")
         return f"Failed to connect: {e}"
 
 
